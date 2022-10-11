@@ -2,6 +2,8 @@ import { Body, Controller, Get, Post, Request, HttpStatus, HttpCode, HttpExcepti
 import { LoginDto, UserDto } from '../dto/user.dto';
 import { UsersService } from '../services/users.service';
 import {v4 as uuidv4} from 'uuid';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService){}
@@ -30,9 +32,9 @@ export class UsersController {
   //   let user = this.usersService.login(body)
   //   return user
   // }
-  //@UseGuards(JwtAuthGuard)
-  // @Post('/auth/login')
-  // async login(@Request() req) {
-  //   return this.usersService.login(req.user);
-  // }
+  @UseGuards(LocalAuthGuard)
+  @Post('/auth/login')
+  async login(@Request() req) {
+    return this.usersService.login(req.user);
+  }
 }

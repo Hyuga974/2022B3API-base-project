@@ -7,6 +7,7 @@ import { User } from './users/users.entity';
 import { UserDto } from './users/dto/user.dto';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/services/users.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UsersService } from './users/services/users.service';
       inject: [ConfigService],
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
