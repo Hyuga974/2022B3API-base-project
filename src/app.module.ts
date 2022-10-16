@@ -1,13 +1,14 @@
-/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import { AuthService } from './auth/services/auth.service';
+import { LocalStrategy } from './auth/strategies/local.strategy';
 import { UsersController } from './users/controllers/users.controller';
-import { User } from './users/users.entity';
-import { UserDto } from './users/dto/user.dto';
-import { UsersModule } from './users/users.module';
 import { UsersService } from './users/services/users.service';
-import { AuthModule } from './auth/auth.module';
+import { User } from './users/users.entity';
+import { UsersModule } from './users/users.module';
+
 
 @Module({
   imports: [
@@ -27,9 +28,8 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
     }),
     UsersModule,
-    AuthModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [ ],
+  providers: [ ],
 })
 export class AppModule {}
