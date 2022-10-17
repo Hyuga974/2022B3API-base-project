@@ -24,6 +24,10 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { username: username } });
   }
 
+  findId(id: string): Promise<User>{
+    return this.usersRepository.findOne({ where: { id: id } });
+  }
+
   //create user
   async create(user: User): Promise<User> {
     return await this.usersRepository.save(user);

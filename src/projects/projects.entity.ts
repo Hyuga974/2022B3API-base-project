@@ -10,5 +10,5 @@ export class Project {
     name: string
 
     @Column({nullable:false})
-    referringEmployeeId: number
+    referringEmployeeId: string
 }

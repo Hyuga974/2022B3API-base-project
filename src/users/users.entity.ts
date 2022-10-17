@@ -1,13 +1,7 @@
 
 import { IsEmail, IsNotEmpty, Length } from "class-validator"
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
-
-export enum role {
-  Employee= 'Employee',
-  Admin= 'Admin',
-  ProjectManager = 'ProjectManager',
-}
-
+import { role } from "./role.enum"
 
 @Entity()
 export class User {

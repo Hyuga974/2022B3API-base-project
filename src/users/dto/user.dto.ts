@@ -1,5 +1,6 @@
 import { IsEmail, IsNotEmpty, Length } from "class-validator"
-import {role} from "../users.entity"
+import { role } from "../role.enum"
+
 
 export class UserDto {
   id: string
