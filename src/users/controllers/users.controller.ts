@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpException, HttpStatus, Param, Post, Req, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import {v4 as uuidv4} from 'uuid';
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { LocalAuthGuard } from "../../auth/guards/local-auth.guard";
@@ -8,19 +8,20 @@ import { UsersService } from "../services/users.service";
 import { User } from "../users.entity";
 
 @Controller("users")
+@UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService, private authService: AuthService) {}
   @Post('/auth/sign-up')
   @UsePipes(ValidationPipe)
-  async create(@Body() body:UserDto) {
-    let newUser : UserDto = {
-      id : uuidv4(),
-      username : body.username,
-      password : body.password,
-      email : body.email,
-      role : body.role
-    }
-    return this.usersService.create(newUser)
+  async create(@Body() CreatedUserDto:UserDto): Promise<User> {
+    // let newUser : UserDto = {
+    //   id : uuidv4(),
+    //   username : CreatedUserDto.username,
+    //   password : CreatedUserDto.password,
+    //   email : CreatedUserDto.email,
+    //   role : CreatedUserDto.role
+    // }
+    return this.usersService.create(CreatedUserDto)
   }
 
   @Post('auth/login')
@@ -31,7 +32,7 @@ export class UsersController {
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
-          error: "email or password is incorrect",
+          error: "email is incorrect",
         },
         HttpStatus.UNAUTHORIZED,
       );
@@ -40,7 +41,7 @@ export class UsersController {
       throw new HttpException(
         {
           status: HttpStatus.UNAUTHORIZED,
-          error: "email or password is incorrect",
+          error: "password is incorrect",
         },
         HttpStatus.UNAUTHORIZED,
       );

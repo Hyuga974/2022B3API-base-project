@@ -3,6 +3,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ProjectDto } from '../dto/project.dto';
 import { Project } from '../projects.entity';
 
 @Injectable()
@@ -16,16 +17,16 @@ export class ProjectsService {
     return this.projectsRepository.find();
   }
 
-  findId(id: string): Promise<Project>{
-    return this.projectsRepository.findOne({ where: { id: id } });
+  async findId(id: string): Promise<Project>{
+    return await this.projectsRepository.findOne({ where: { id: id } });
   }
 
-  findUser(id: string): Promise<Project>{
-    return this.projectsRepository.findOne({ where: { referringEmployeeId: id}})
+  findProjectsUser(id: string): Promise<Project[]>{
+    return this.projectsRepository.find({ where: { referringEmployeeId: id}})
   }
 
   //create Project
-  async create(project: Project): Promise<Project> {
+  async create(project: ProjectDto): Promise<Project> {
     return await this.projectsRepository.save(project);
   }
 

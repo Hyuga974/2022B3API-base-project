@@ -4,11 +4,16 @@ import { JwtModule } from '@nestjs/jwt';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import { AuthService } from './auth/services/auth.service';
 import { LocalStrategy } from './auth/strategies/local.strategy';
-// import { ProjectsModule } from './projects/projects.module';
+import { ProjectUsersModule } from './project-users/project-user.module';
+import { ProjectUser } from './project-users/project-users.entity';
+import { Project } from './projects/projects.entity';
+import { ProjectsModule } from './projects/projects.module';
 import { UsersController } from './users/controllers/users.controller';
 import { UsersService } from './users/services/users.service';
 import { User } from './users/users.entity';
 import { UsersModule } from './users/users.module';
+import { Event } from './events/events.entity'
+import { EventModule } from './events/event.module';
 
 
 @Module({
@@ -23,12 +28,15 @@ import { UsersModule } from './users/users.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Project, ProjectUser, Event],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UsersModule,
+    ProjectsModule,
+    ProjectUsersModule,
+    EventModule,
   ],
   controllers: [ ],
   providers: [ ],

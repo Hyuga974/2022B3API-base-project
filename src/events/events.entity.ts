@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
+import { User } from "../users/users.entity"
 
 enum eventStatus {
   Pending = 'Pending',
@@ -7,16 +8,15 @@ enum eventStatus {
 }
 
 @Entity()
-export class ProjectUser {
+export class Event {
     @PrimaryGeneratedColumn("uuid")
-    @Column({nullable:false})
     id: string
 
     @Column({nullable:false})
     date: Date
 
-    @Column({nullable:true, default: eventStatus.Pending})
-    eventStatus: eventStatus
+    @Column({nullable:true, default: 'Pending'})
+    eventStatus: 'Pending'|'Accepted'|'Declined'
 
     @Column({nullable:false})
     eventType: 'RemoteWork' | 'PaidLeave'
@@ -26,4 +26,7 @@ export class ProjectUser {
 
     @Column({nullable:false})
     userId: string
+
+    // @ManyToOne(() => User, user => user.events)
+    // user:User
 }

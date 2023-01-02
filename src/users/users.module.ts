@@ -8,10 +8,13 @@ import { JwtService } from '@nestjs/jwt';
 import { LocalStrategy } from '../auth/strategies/local.strategy';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { Project } from '../projects/projects.entity';
+import { ProjectsController } from '../projects/controllers/projects.controller';
+import { ProjectsService } from '../projects/services/projects.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  providers: [UsersService, AuthService, JwtService, LocalStrategy, JwtStrategy],
+  providers: [UsersService,AuthService, JwtService, JwtStrategy],
+  exports : [UsersService],
   controllers: [UsersController],
 })
 export class UsersModule {}
